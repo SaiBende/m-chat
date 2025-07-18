@@ -148,5 +148,4 @@ This app is for educational and screening use only.
 ## Contributing
 
 Pull requests and feedback are welcome!
-
-Similar code found with 2 license types
+If you find any issues or have suggestions, please open an issue or submit a pull request.
