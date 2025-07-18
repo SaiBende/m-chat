@@ -1,103 +1,125 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { useRouter } from 'next/navigation';
+import { useMChat } from '@/context/MChatContext';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+
+export default function HomePage() {
+  const router = useRouter();
+  const { answers, isLoaded, reset } = useMChat();
+  const [hasSavedProgress, setHasSavedProgress] = useState(false);
+  const [savedCount, setSavedCount] = useState(0);
+
+  useEffect(() => {
+    if (isLoaded) {
+      const answersCount = Object.keys(answers).length;
+      setHasSavedProgress(answersCount > 0);
+      setSavedCount(answersCount);
+    }
+  }, [answers, isLoaded]);
+
+  const handleStartNew = () => {
+    reset();
+    router.push('/questionnaire');
+  };
+
+  const handleResume = () => {
+    router.push('/questionnaire');
+  };
+
+  if (!isLoaded) {
+    return (
+      <main className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+        {/* background Logic */}
+        <div className="fixed inset-0 z-0">
+          <Image
+            src="/background.jpeg"
+            alt="Background"
+            fill
+            priority
+            className="object-cover "
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 " />
         </div>
+        <Card className="w-full max-w-md shadow-2xl rounded-2xl relative z-10">
+          <CardContent className="p-6 space-y-6 text-center">
+            <div className="text-center">
+              <p>Loading...</p>
+            </div>
+          </CardContent>
+        </Card>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    );
+  }
+
+  return (
+    <main className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+
+      {/* background Logic */}
+      <div className="fixed inset-0 z-0">
+        <Image
+          src="/background.jpeg"
+          alt="Background"
+          fill
+          priority
+          className="object-cover "
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 " />
+      </div>
+
+
+      <Card className=" relative w-full z-10 max-w-md shadow-2xl rounded-2xl">
+        <CardContent className="p-6 space-y-6 text-center">
+          <h1 className="text-2xl font-bold text-gray-800">M-CHAT-R/F Autism Screener</h1>
+          <p className="text-sm text-gray-600">
+            Answer 20 quick questions about your child`s behavior to get an early autism risk assessment.
+          </p>
+          <Separator />
+
+          {hasSavedProgress ? (
+            <div className="space-y-4">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-sm text-blue-800 font-medium">
+                  Progress Found
+                </p>
+                <p className="text-xs text-blue-600">
+                  {savedCount} of 20 questions answered
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Button
+                  onClick={handleResume}
+                  className="w-full text-white text-md"
+                >
+                  Resume Assessment
+                </Button>
+                <Button
+                  onClick={handleStartNew}
+                  variant="outline"
+                  className="w-full text-md"
+                >
+                  Start New Assessment
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <Button
+              onClick={() => router.push('/questionnaire')}
+              className="w-full text-white text-md"
+            >
+              Start Assessment
+            </Button>
+          )}
+        </CardContent>
+      </Card>
+    </main>
   );
 }
