@@ -20,17 +20,17 @@ export default function QuestionnairePage() {
   const percentage = Math.round(((step + 1) / questions.length) * 100);
 
   useEffect(() => {
-   
+
     if (!isLoaded) return;
-    
-   
+
+
     const answeredQuestions = Object.keys(answers).map(Number).sort((a, b) => a - b);
     if (answeredQuestions.length > 0) {
       const lastAnswered = answeredQuestions[answeredQuestions.length - 1];
       if (lastAnswered < 20) {
-        setStep(lastAnswered); 
+        setStep(lastAnswered);
       } else {
-        setStep(19); 
+        setStep(19);
       }
     }
   }, [answers, isLoaded]);
@@ -41,7 +41,7 @@ export default function QuestionnairePage() {
 
   const handleNext = () => {
     if (step === questions.length - 1) {
-     
+
       router.push('/result');
     } else {
       setStep(step + 1);
@@ -53,24 +53,24 @@ export default function QuestionnairePage() {
   };
 
   const handleSaveProgress = () => {
-   
+
     setShowSaveMessage(true);
     setTimeout(() => setShowSaveMessage(false), 3000);
   };
 
   const handleSaveAndExit = () => {
-    
+
     router.push('/');
   };
 
-  
+
   if (!isLoaded) {
     return (
       <main className="relative z-10 flex items-center justify-center min-h-screen bg-slate-100 p-4">
         {/* background Logic*/}
-     <div className="fixed inset-0 z-0">
-          <Image 
-            src="/background.jpeg" 
+        <div className="fixed inset-0 z-0">
+          <Image
+            src="/background.jpeg"
             alt="Background"
             fill
             priority
@@ -78,7 +78,7 @@ export default function QuestionnairePage() {
             sizes="100vw"
           />
           <div className="absolute inset-0 " />
-      </div>
+        </div>
         <Card className="w-full max-w-xl text-center shadow-xl">
           <CardContent className="p-6 space-y-6">
             <div className="text-center">
@@ -93,16 +93,16 @@ export default function QuestionnairePage() {
   return (
     <main className="flex items-center justify-center min-h-screen bg-slate-100 p-4">
       {/* background Logic */}
-     <div className="fixed inset-0 z-0">
-          <Image 
-            src="/background.jpeg" 
-            alt="Background"
-            fill
-            priority
-            className="object-cover "
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 " />
+      <div className="fixed inset-0 z-0">
+        <Image
+          src="/background.jpeg"
+          alt="Background"
+          fill
+          priority
+          className="object-cover "
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 " />
       </div>
       <Card className="w-full max-w-xl shadow-xl relative z-10">
         <CardHeader className="text-center pb-4">
@@ -112,14 +112,14 @@ export default function QuestionnairePage() {
             <p className="text-sm text-gray-500">{percentage}% Complete</p>
           </div>
         </CardHeader>
-        
+
         <CardContent className="p-6 space-y-6">
           {showSaveMessage && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
               <p className="text-sm text-green-800">Progress saved successfully!</p>
             </div>
           )}
-          
+
           <div className="text-center">
             <p className="text-base leading-relaxed">{questions[step]}</p>
           </div>
@@ -143,21 +143,23 @@ export default function QuestionnairePage() {
             </Button>
           </div>
 
-          <div className="flex gap-3 justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <Button
               variant="outline"
               onClick={handlePrevious}
               disabled={step === 0}
               aria-label="Previous Question"
+              className="w-full sm:w-auto"
             >
               Previous
             </Button>
-            
-            <div className="flex gap-2">
+
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
               <Button
                 variant="outline"
                 onClick={handleSaveProgress}
                 aria-label="Save Progress"
+                className="w-full sm:w-auto"
               >
                 Save Progress
               </Button>
@@ -165,19 +167,22 @@ export default function QuestionnairePage() {
                 variant="outline"
                 onClick={handleSaveAndExit}
                 aria-label="Save and Exit"
+                className="w-full sm:w-auto"
               >
                 Save & Exit
               </Button>
             </div>
-            
+
             <Button
               onClick={handleNext}
               disabled={!selected}
               aria-label={step === questions.length - 1 ? 'Submit Assessment' : 'Next Question'}
+              className="w-full sm:w-auto"
             >
               {step === questions.length - 1 ? 'Submit' : 'Next'}
             </Button>
           </div>
+
         </CardContent>
       </Card>
     </main>
